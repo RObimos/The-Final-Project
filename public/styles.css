@@ -171,8 +171,11 @@ a:hover { text-decoration: underline; }
 .stat-arrow { font-size: 22px; color: var(--grass); }
 
 /* ---------- Match cards (signature) ---------- */
-.match-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 16px; }
-.match-card {
+.match-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 16px;
+}.match-card {
   background: linear-gradient(180deg, var(--ink-2), var(--ink-2)) padding-box,
               linear-gradient(180deg, var(--line), transparent) border-box;
   border: 1px solid transparent;
