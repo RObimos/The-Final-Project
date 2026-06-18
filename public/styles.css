@@ -173,9 +173,10 @@ a:hover { text-decoration: underline; }
 /* ---------- Match cards (signature) ---------- */
 .match-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(520px, 1fr));
   gap: 16px;
-}.match-card {
+}
+.match-card {
   background: linear-gradient(180deg, var(--ink-2), var(--ink-2)) padding-box,
               linear-gradient(180deg, var(--line), transparent) border-box;
   border: 1px solid transparent;
