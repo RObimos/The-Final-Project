@@ -41,7 +41,10 @@ export async function seed() {
   // --- Compte administrateur ---
   const adminUser = process.env.ADMIN_USERNAME || 'admin';
   const adminEmail = process.env.ADMIN_EMAIL || 'admin@pronos.local';
-  const adminPass = process.env.ADMIN_PASSWORD || 'admin1234';
+  const adminPass = process.env.ADMIN_PASSWORD;
+if (!adminPass) {
+  throw new Error('ADMIN_PASSWORD doit être défini pour créer le compte administrateur.');
+}
 
   const { rows: existingAdmin } = await query(
     'SELECT id FROM users WHERE username = $1',
