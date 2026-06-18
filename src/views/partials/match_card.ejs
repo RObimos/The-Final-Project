@@ -1,0 +1,52 @@
+<%
+  const koDate = new Date(m.kickoff_at);
+  const dateStr = koDate.toLocaleString('fr-FR', {
+    weekday: 'short', day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit'
+  });
+  const finished = m.status === 'finished';
+%>
+<article class="match-card <%= finished ? 'is-finished' : '' %>">
+  <div class="match-meta">
+    <% if (m.group_name) { %><span class="chip">Groupe <%= m.group_name %></span><% } %>
+    <span class="match-date"><%= dateStr %></span>
+    <% if (finished) { %><span class="chip chip-done">Terminé</span><% } %>
+  </div>
+
+  <div class="scoreboard">
+    <div class="team team-home">
+      <span class="flag"><%= m.flag_home %></span>
+      <span class="team-name"><%= m.team_home %></span>
+    </div>
+
+    <% if (finished) { %>
+      <div class="score-final">
+        <span><%= m.score_home %></span><span class="colon">:</span><span><%= m.score_away %></span>
+      </div>
+    <% } else if (editable) { %>
+      <form action="/matches/<%= m.id %>/predict" method="post" class="score-form">
+        <input type="number" name="pred_home" min="0" max="30" required
+               value="<%= (m.pred_home !== null && m.pred_home !== undefined) ? m.pred_home : '' %>" aria-label="Score <%= m.team_home %>" />
+        <span class="colon">:</span>
+        <input type="number" name="pred_away" min="0" max="30" required
+               value="<%= (m.pred_away !== null && m.pred_away !== undefined) ? m.pred_away : '' %>" aria-label="Score <%= m.team_away %>" />
+        <button type="submit" class="btn-save" title="Enregistrer">✔</button>
+      </form>
+    <% } else { %>
+      <div class="score-locked" title="Pronostics verrouillés">🔒</div>
+    <% } %>
+
+    <div class="team team-away">
+      <span class="team-name"><%= m.team_away %></span>
+      <span class="flag"><%= m.flag_away %></span>
+    </div>
+  </div>
+
+  <% if (finished && (m.pred_home !== null && m.pred_home !== undefined)) { %>
+    <div class="match-result">
+      Ton prono : <strong><%= m.pred_home %> - <%= m.pred_away %></strong>
+      <span class="points-badge points-<%= m.points %>"><%= m.points %> pt<%= m.points > 1 ? 's' : '' %></span>
+    </div>
+  <% } else if (!finished && (m.pred_home !== null && m.pred_home !== undefined) && !editable) { %>
+    <div class="match-result">Ton prono : <strong><%= m.pred_home %> - <%= m.pred_away %></strong></div>
+  <% } %>
+</article>

@@ -1,0 +1,36 @@
+<%- include('partials/header') %>
+
+<section class="page-head">
+  <h1>Matchs & pronostics</h1>
+  <p class="page-sub">Saisis tes scores avant le coup d'envoi. Score exact = 3 pts · bon résultat = 1 pt.</p>
+</section>
+
+<% if (flash) { %><p class="alert alert-<%= flash.type %>"><%= flash.text %></p><% } %>
+
+<section class="section">
+  <div class="section-head"><h2>À venir</h2></div>
+  <% if (aVenir.length === 0) { %>
+    <p class="empty">Aucun match à venir.</p>
+  <% } else { %>
+    <div class="match-grid">
+      <% aVenir.forEach((m) => { %>
+        <%- include('partials/match_card', { m, editable: true }) %>
+      <% }) %>
+    </div>
+  <% } %>
+</section>
+
+<section class="section">
+  <div class="section-head"><h2>Résultats & matchs verrouillés</h2></div>
+  <% if (verrouilles.length === 0) { %>
+    <p class="empty">Rien à afficher pour l'instant.</p>
+  <% } else { %>
+    <div class="match-grid">
+      <% verrouilles.forEach((m) => { %>
+        <%- include('partials/match_card', { m, editable: false }) %>
+      <% }) %>
+    </div>
+  <% } %>
+</section>
+
+<%- include('partials/footer') %>

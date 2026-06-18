@@ -1,0 +1,49 @@
+<%- include('partials/header') %>
+
+<section class="page-head">
+  <h1>Administration</h1>
+  <p class="page-sub">Saisis les résultats réels : les points de tous les joueurs sont recalculés automatiquement.</p>
+</section>
+
+<% if (flash) { %><p class="alert alert-<%= flash.type %>"><%= flash.text %></p><% } %>
+
+<section class="card">
+  <h2>Ajouter un match</h2>
+  <form action="/admin/matches" method="post" class="form admin-add">
+    <label>Groupe <input type="text" name="group_name" maxlength="10" placeholder="A" /></label>
+    <label>Équipe domicile <input type="text" name="team_home" required placeholder="France" /></label>
+    <label>Drapeau <input type="text" name="flag_home" maxlength="10" placeholder="🇫🇷" /></label>
+    <label>Équipe extérieur <input type="text" name="team_away" required placeholder="Brésil" /></label>
+    <label>Drapeau <input type="text" name="flag_away" maxlength="10" placeholder="🇧🇷" /></label>
+    <label>Coup d'envoi <input type="datetime-local" name="kickoff_at" required /></label>
+    <button type="submit" class="btn-primary">Ajouter</button>
+  </form>
+</section>
+
+<section class="section">
+  <div class="section-head"><h2>Tous les matchs</h2></div>
+  <div class="admin-list">
+    <% matches.forEach((m) => {
+       const koDate = new Date(m.kickoff_at);
+       const dateStr = koDate.toLocaleString('fr-FR', { day:'2-digit', month:'short', hour:'2-digit', minute:'2-digit' });
+       const finished = m.status === 'finished';
+    %>
+      <div class="admin-row <%= finished ? 'is-finished' : '' %>">
+        <div class="admin-match">
+          <% if (m.group_name) { %><span class="chip">Gr. <%= m.group_name %></span><% } %>
+          <span class="admin-teams"><%= m.flag_home %> <%= m.team_home %> — <%= m.team_away %> <%= m.flag_away %></span>
+          <span class="admin-date"><%= dateStr %></span>
+          <% if (finished) { %><span class="chip chip-done">Score : <%= m.score_home %>-<%= m.score_away %></span><% } %>
+        </div>
+        <form action="/admin/matches/<%= m.id %>/result" method="post" class="admin-result">
+          <input type="number" name="score_home" min="0" max="30" value="<%= m.score_home !== null ? m.score_home : '' %>" required aria-label="Score domicile" />
+          <span class="colon">:</span>
+          <input type="number" name="score_away" min="0" max="30" value="<%= m.score_away !== null ? m.score_away : '' %>" required aria-label="Score extérieur" />
+          <button type="submit" class="btn-save">Valider</button>
+        </form>
+      </div>
+    <% }) %>
+  </div>
+</section>
+
+<%- include('partials/footer') %>

@@ -1,0 +1,32 @@
+<%- include('partials/header') %>
+
+<div class="auth-wrap">
+  <section class="auth-hero">
+    <p class="eyebrow">Coupe du Monde 2026 · USA / Canada / Mexique</p>
+    <h1 class="auth-title">Pronostique chaque match.<br />Grimpe au classement.</h1>
+    <p class="auth-lead">
+      Devine les scores des 104 matchs du Mondial, marque des points et défie tes amis
+      dans des ligues privées. Score exact = 3 pts · bon résultat = 1 pt.
+    </p>
+  </section>
+
+  <section class="card auth-card">
+    <h2>Créer un compte</h2>
+    <% if (error) { %><p class="alert alert-error"><%= error %></p><% } %>
+    <form action="/register" method="post" class="form">
+      <label>Pseudo
+        <input type="text" name="username" value="<%= values.username || '' %>" required minlength="3" maxlength="40" autocomplete="username" />
+      </label>
+      <label>E-mail
+        <input type="email" name="email" value="<%= values.email || '' %>" required autocomplete="email" />
+      </label>
+      <label>Mot de passe
+        <input type="password" name="password" required minlength="6" autocomplete="new-password" />
+      </label>
+      <button type="submit" class="btn-primary">Créer mon compte</button>
+    </form>
+    <p class="auth-switch">Déjà inscrit ? <a href="/login">Se connecter</a></p>
+  </section>
+</div>
+
+<%- include('partials/footer') %>

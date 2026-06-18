@@ -1,0 +1,29 @@
+<%- include('partials/header') %>
+
+<div class="auth-wrap">
+  <section class="auth-hero">
+    <p class="eyebrow">Coupe du Monde 2026 · USA / Canada / Mexique</p>
+    <h1 class="auth-title">Le Mondial,<br />ton tableau d'affichage.</h1>
+    <p class="auth-lead">
+      Reprends tes pronostics là où tu les as laissés et vois si tu tiens toujours
+      le haut du classement.
+    </p>
+  </section>
+
+  <section class="card auth-card">
+    <h2>Connexion</h2>
+    <% if (error) { %><p class="alert alert-error"><%= error %></p><% } %>
+    <form action="/login" method="post" class="form">
+      <label>Pseudo ou e-mail
+        <input type="text" name="identifier" value="<%= values.identifier || '' %>" required autocomplete="username" />
+      </label>
+      <label>Mot de passe
+        <input type="password" name="password" required autocomplete="current-password" />
+      </label>
+      <button type="submit" class="btn-primary">Se connecter</button>
+    </form>
+    <p class="auth-switch">Pas encore de compte ? <a href="/register">S'inscrire</a></p>
+  </section>
+</div>
+
+<%- include('partials/footer') %>

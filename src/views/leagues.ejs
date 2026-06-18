@@ -1,0 +1,49 @@
+<%- include('partials/header') %>
+
+<section class="page-head">
+  <h1>Mes ligues</h1>
+  <p class="page-sub">Crée une ligue privée et partage le code à tes amis, ou rejoins la leur.</p>
+</section>
+
+<% if (flash) { %><p class="alert alert-<%= flash.type %>"><%= flash.text %></p><% } %>
+
+<div class="two-col">
+  <section class="card">
+    <h2>Créer une ligue</h2>
+    <form action="/leagues" method="post" class="form">
+      <label>Nom de la ligue
+        <input type="text" name="name" required minlength="2" maxlength="60" placeholder="Les pros du prono" />
+      </label>
+      <button type="submit" class="btn-primary">Créer</button>
+    </form>
+  </section>
+
+  <section class="card">
+    <h2>Rejoindre une ligue</h2>
+    <form action="/leagues/join" method="post" class="form">
+      <label>Code d'invitation
+        <input type="text" name="join_code" required maxlength="8" placeholder="Ex : 7K2Q9P" class="mono" style="text-transform:uppercase" />
+      </label>
+      <button type="submit" class="btn-primary">Rejoindre</button>
+    </form>
+  </section>
+</div>
+
+<section class="section">
+  <div class="section-head"><h2>Ligues dont je fais partie</h2></div>
+  <% if (leagues.length === 0) { %>
+    <p class="empty">Tu n'as encore rejoint aucune ligue.</p>
+  <% } else { %>
+    <div class="league-grid">
+      <% leagues.forEach((l) => { %>
+        <a class="league-card" href="/leagues/<%= l.id %>">
+          <h3><%= l.name %></h3>
+          <p class="league-members"><%= l.members %> membre<%= l.members > 1 ? 's' : '' %></p>
+          <p class="league-code">Code : <span class="mono"><%= l.join_code %></span></p>
+        </a>
+      <% }) %>
+    </div>
+  <% } %>
+</section>
+
+<%- include('partials/footer') %>

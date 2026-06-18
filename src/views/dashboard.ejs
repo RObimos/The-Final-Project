@@ -1,0 +1,40 @@
+<%- include('partials/header') %>
+
+<section class="page-head">
+  <h1>Salut <%= currentUser.username %> 👋</h1>
+  <p class="page-sub">Voici ton récap et les prochains matchs à pronostiquer.</p>
+</section>
+
+<div class="stats-row">
+  <div class="stat-card">
+    <span class="stat-label">Mes points</span>
+    <span class="stat-value gold"><%= total %></span>
+  </div>
+  <div class="stat-card">
+    <span class="stat-label">Classement général</span>
+    <span class="stat-value"><%= rank === '—' ? '—' : '#' + rank %></span>
+  </div>
+  <a class="stat-card stat-link" href="/matches">
+    <span class="stat-label">Prochains matchs</span>
+    <span class="stat-value"><%= nextMatches.length %> <span class="stat-arrow">→</span></span>
+  </a>
+</div>
+
+<section class="section">
+  <div class="section-head">
+    <h2>À pronostiquer</h2>
+    <a href="/matches" class="link-more">Tous les matchs →</a>
+  </div>
+
+  <% if (nextMatches.length === 0) { %>
+    <p class="empty">Aucun match à venir pour le moment. Reviens bientôt !</p>
+  <% } else { %>
+    <div class="match-grid">
+      <% nextMatches.forEach((m) => { %>
+        <%- include('partials/match_card', { m, editable: true }) %>
+      <% }) %>
+    </div>
+  <% } %>
+</section>
+
+<%- include('partials/footer') %>

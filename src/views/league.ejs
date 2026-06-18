@@ -1,0 +1,29 @@
+<%- include('partials/header') %>
+
+<section class="page-head">
+  <a href="/leagues" class="back-link">← Mes ligues</a>
+  <h1><%= league.name %></h1>
+  <p class="page-sub">Code d'invitation : <span class="mono code-pill"><%= league.join_code %></span></p>
+</section>
+
+<section class="card">
+  <table class="ranking">
+    <thead>
+      <tr><th>#</th><th>Joueur</th><th>Pts</th><th class="hide-sm">Scores exacts</th></tr>
+    </thead>
+    <tbody>
+      <% standings.forEach((r, i) => { %>
+        <tr class="<%= r.id === currentUserId ? 'me' : '' %>">
+          <td class="rank-cell">
+            <% if (i === 0) { %><span class="medal">🥇</span><% } else if (i === 1) { %><span class="medal">🥈</span><% } else if (i === 2) { %><span class="medal">🥉</span><% } else { %><%= i + 1 %><% } %>
+          </td>
+          <td class="player"><%= r.username %><% if (r.id === currentUserId) { %> <span class="you">toi</span><% } %></td>
+          <td class="pts gold"><%= r.total %></td>
+          <td class="hide-sm"><%= r.exacts %></td>
+        </tr>
+      <% }) %>
+    </tbody>
+  </table>
+</section>
+
+<%- include('partials/footer') %>
